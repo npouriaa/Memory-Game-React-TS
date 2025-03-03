@@ -1,0 +1,42 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+
+button {
+  outline: none;
+}
+
+.cards-container {
+  width: 35rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.card {
+  margin: 1rem 0rem;
+  width: 6rem;
+  height: 8rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 3rem;
+  cursor: pointer;
+  border-radius: 0.5rem;
+}
+
+.facedown-card {
+  background-color: #c8c4c4;
+}
+
+.faceup-card {
+  background-color: #fff;
+}
+
+.matched-card {
+  background-color: #00ff00;
+}
+
