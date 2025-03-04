@@ -54,7 +54,7 @@ const useCards = () => {
         updateCardStatus([prevIndex.current, index], "facedown");
         disabled.current = false;
         prevIndex.current = -1; // Reset after a mismatch
-      }, 600);
+      }, 800);
     }
   };
 
