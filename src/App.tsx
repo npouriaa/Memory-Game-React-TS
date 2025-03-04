@@ -1,17 +1,18 @@
 import "./App.css";
 import Card from "./components/Card";
 import { useCards } from "./hooks/useCards";
-import Confetti from "./components/Confetti";
+import GameOver from "./components/GameOver";
+import Congrats from "./components/Congrats";
 
 const App = () => {
   const { cards, handleClick, time, gameOver, complete } = useCards();
 
   return (
-    <div>
-      <p>time left : {time}</p>
-      {complete && <Confetti />}
-      {gameOver && <p>Game over !</p>}
-      <h1>Memory game - React & TS</h1>
+    <div className="container">
+      {gameOver && <GameOver />}
+      {complete && <Congrats />}
+      <h1 className="title text-primary-color">Memory game cards - React + TS</h1>
+      <p>Time Left : {time} sec</p>
       <div className="cards-container">
         {cards.map((c, i) => (
           <Card
@@ -22,7 +23,8 @@ const App = () => {
           />
         ))}
       </div>
-      <button onClick={() => location.reload()}>Restart</button>
+      <button className="restart" onClick={() => location.reload()}>Restart</button>
+      <p>© made by <a href="https://www.linkedin.com/in/npouriaa" target="_blank">npouriaa</a></p>
     </div>
   );
 };

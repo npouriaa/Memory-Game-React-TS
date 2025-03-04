@@ -3,6 +3,7 @@ import { shuffleCards } from "../helpers/cards";
 
 const useCards = () => {
   const [time, setTime] = useState<number>(60);
+
   const [complete, setComplete] = useState<boolean>(false);
   const [gameOver, setGameOver] = useState<boolean>(false);
   const [inProgress, setInProgress] = useState<boolean>(false);
@@ -13,13 +14,19 @@ const useCards = () => {
   const prevIndex = useRef(-1);
 
   useEffect(() => {
+
+    setGameOver(false);
+    setComplete(false);
+    setInProgress(false);
+    setTime(60);
+
     setTimeout(() => {
       setCards((prevCards) =>
         [...prevCards].map((c) => ({ ...c, status: "facedown" }))
       );
       disabled.current = false;
       setInProgress(true);
-    }, 2000);
+    }, 3000);
   }, []);
 
   const updateCardStatus = (indices: number[], status: string) => {
@@ -31,7 +38,7 @@ const useCards = () => {
   };
 
   const handleClick = (index: number) => {
-    if (disabled.current) return;
+    if (disabled.current || gameOver) return;
 
     const currCard = cards[index];
     const prevCard = prevIndex.current !== -1 ? cards[prevIndex.current] : null;
