@@ -4,7 +4,7 @@ import { useCards } from "./hooks/useCards";
 import Confetti from "./components/Confetti";
 
 const App = () => {
-  const { cards, handleClick , time , gameOver , complete} = useCards();
+  const { cards, handleClick, time, gameOver, complete } = useCards();
 
   return (
     <div>

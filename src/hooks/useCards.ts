@@ -22,41 +22,40 @@ const useCards = () => {
     }, 2000);
   }, []);
 
-  const updateCardStatus = (
-    cardArr: { status: string; symbol: string }[],
-    status: string
-  ) => {
-    cardArr.forEach((card) => (card.status = status));
-    setCards([...cards]);
+  const updateCardStatus = (indices: number[], status: string) => {
+    setCards((prevCards) =>
+      prevCards.map((card, i) =>
+        indices.includes(i) ? { ...card, status } : card
+      )
+    );
   };
 
   const handleClick = (index: number) => {
     if (disabled.current) return;
 
     const currCard = cards[index];
-    const prevCard = cards[prevIndex.current];
+    const prevCard = prevIndex.current !== -1 ? cards[prevIndex.current] : null;
 
-    if (currCard.status === "matched") return;
     if (currCard.status === "faceup" || currCard.status === "matched") return;
 
-    updateCardStatus([currCard], "faceup");
+    updateCardStatus([index], "faceup");
 
-    if (!prevCard || prevIndex.current === 1) {
+    if (!prevCard) {
       prevIndex.current = index;
       return;
     }
 
     if (currCard.symbol === prevCard.symbol) {
-      updateCardStatus([prevCard, currCard], "matched");
+      updateCardStatus([prevIndex.current, index], "matched");
+      prevIndex.current = -1; // Reset after a successful match
     } else {
       disabled.current = true;
       setTimeout(() => {
-        updateCardStatus([prevCard, currCard], "facedown");
+        updateCardStatus([prevIndex.current, index], "facedown");
         disabled.current = false;
+        prevIndex.current = -1; // Reset after a mismatch
       }, 600);
     }
-
-    prevIndex.current = -1;
   };
 
   useEffect(() => {
@@ -72,7 +71,7 @@ const useCards = () => {
 
       return () => clearInterval(timer);
     }
-  }, [inProgress, time , complete]);
+  }, [inProgress, time, complete]);
 
   const handleGameComplete = () => {
     if (cards.every((card) => card.status === "matched")) {
